@@ -57,9 +57,7 @@
 (add-to-list 'load-path "~/.emacs.d/vendor/emacs-jabber-0.8.0")
 (load "jabber-autoloads")
 
-(jabber-connect-all)
-
-(load-file "~/.emacs.d/saws-commands.el")
+(load-file "~/.emacs.d/private.el")
 
 ;; Work tracker
 (load "worktracker.el")
@@ -69,3 +67,4 @@
 (global-set-key [f11] 'work-resume)
 
 ;;(require 'magit)
+
