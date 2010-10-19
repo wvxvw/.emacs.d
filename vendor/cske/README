@@ -1,0 +1,119 @@
+A C# Kit for emacs
+
+* Introduction and installation
+  This is my ongoing effort to make an usable environment inside emacs
+  to work with C#/.NET projects.
+  
+  So far, all that is implemented is project browsing for .csproj and
+  .sln files, and project building through calls to msbuild. No
+  project management is yet implemented. I personally create and
+  modify project files with SharpDevelop, or sometimes by hand.
+  
+  This has only been tested with emacs 23 so far. 
+  
+  To install the kit, download the .el files, and put them in a
+  directory which is in emacs' load path. You'll have to run the
+  following somewhere in your .emacs file:
+
+
+  (require 'compile)
+  (require 'cl)
+  
+  (add-hook 'csharp-mode-hook (lambda() (sln-minor-mode 1)))
+
+  (load-library "msbuild.el")
+  (load-library "sln-mode.el")
+  (load-library "csproj-mode.el")
+  (load-library "sln-minor-mode.el")
+  
+  (add-to-list 'auto-mode-alist '("\\.sln$" . sln-mode)) 
+  (add-to-list 'auto-mode-alist '("\\.csproj$" . csproj-mode)) 
+
+
+
+  You have to use csharp-mode to edit your .cs files in order for the
+  compilation support to work. If you use Dylan Moonfire's csharp-mode
+  version 0.7, please note thar it uses this:
+
+  (add-to-list 'auto-mode-alist '("\\.cs" . csharp-mode))
+
+  This will also activate csharp-mode in .csproj files. It should be:
+
+  (add-to-list 'auto-mode-alist '("\\.cs$" . csharp-mode))
+
+
+  Also, the 'ido' package is used at some points to get user input. If
+  you use ido, this will work ok. If you don't, you have to let 'ido'
+  init with:
+
+  (ido-mode 1)
+  (ido-mode 0)
+
+
+  The directory where msbuild.exe is must be in the PATH.
+  
+* Features for Solution files (.sln)
+
+  When you open a Solution (.sln) file, sln-mode will be activated,
+  doing the following:
+
+  - Some parts of the file (guids, full paths, etc) will be hidden,
+    make the file more readable. 
+  - Also some syntax colors will be used, for readability. 
+  - Arrow keys will move point to the next or prior project in the
+    solution. Enter key will open the project (.csproj file) at point.
+  - Project browsing is also available through the menu bar (Projects)
+    and the speedbar.
+  - With the function sln-ido-go-to-project, bound to C-c b, you can
+    go to a project by name using the ido interface. 
+  - You can build/rebuild/clean the entire solution or the project at
+    point with the Build menu and the corresponding keys.
+
+* Features for C# project files (.csproj)
+
+  When you open a C# project (.csproj) file, csproj-mode will be activated,
+  doing the following:
+
+  - csproj files are xml files. csproj-mode derives from nxml-mode, so
+    you get syntax colors. Some parts of the file will be
+    automatically hidden.
+  - Arrow keys will move point to the next or prior source file in the
+    project. Enter key will open the source file at point.
+  - Source file browsing is also available through the menu bar
+    (Sources) and the speedbar.
+  - You can build/rebuild/clean the project or the entire solution
+    with the Build menu and the corresponding keys. The corresponding
+    sln buffer MUST be open. If it is not found, the program will try
+    to find it and ask the user to choose the right one. Standalone
+    csproj files (without sln) are not supported.
+
+* Features for source files (.cs)
+
+  The sln-minor-mode must be active on the file for this to work.
+
+  - Jumping to the .csproj buffer, from the Build menu. If the .csproj
+    file is not currently open, it will try to find it and prompt the
+    user.
+  - Buildind the project/solution from the build menu.
+
+
+
+
+    
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
