@@ -59,6 +59,11 @@
 
 (load-file "~/.emacs.d/private.el")
 
+;; Magit
+;; ubuntu has this an installable package, windows is shit
+(add-to-list 'load-path "~/.emacs.d/vendor/magit-0.8.2")
+(require 'magit)
+
 ;; Work tracker
 (load "worktracker.el")
 (global-set-key [f9] 'work-clockin)
@@ -66,5 +71,4 @@
 (global-set-key [f12] 'work-interrupted)
 (global-set-key [f11] 'work-resume)
 
-;;(require 'magit)
 
